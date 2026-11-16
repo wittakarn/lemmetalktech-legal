@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Sign-in code</title><link rel="stylesheet" href="style.css">
+<style>code{display:block;word-break:break-all;padding:12px;border:1px solid var(--muted);border-radius:8px;margin:12px 0}button{font:inherit;padding:8px 16px}</style>
+</head><body>
+<h1>lemmetalktech uploader</h1>
+<div id="out"><p>No sign-in code in this address.</p></div>
+<script>
+// Shows TikTok's one-time sign-in code so the owner can paste it into the uploader on their own computer.
+// Nothing is stored or sent anywhere from this page.
+const q = new URLSearchParams(location.search), out = document.getElementById("out");
+if (q.get("error")) {
+  out.innerHTML = "<p>TikTok returned an error:</p><code></code>";
+  out.querySelector("code").textContent = q.get("error") + ": " + (q.get("error_description") || "");
+} else if (q.get("code")) {
+  out.innerHTML = '<p>Signed in. Copy this address and paste it into the uploader in your terminal:</p><code></code><button>Copy</button>';
+  out.querySelector("code").textContent = location.href;
+  out.querySelector("button").onclick = e => navigator.clipboard.writeText(location.href).then(() => e.target.textContent = "Copied");
+}
+</script>
+</body></html>
